@@ -25,7 +25,7 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: 'hello API' });
 });
 
-// Solve the TimeStamp Microservices
+/* // Solve the TimeStamp Microservices
 const time = (time) => {
   let patterns = /^[0-9]*$/g;
   let isNum = patterns.test(time);
@@ -50,10 +50,28 @@ const time = (time) => {
   }
   return data;
 }
-
+ */
 app.get("/api/:date", (req, res) => {
-  let data = req.params;
-  res.json(time(data.date));
+  const dateString = req.params;
+  let date;
+  if (!dateString) {
+    date = new Date();
+  } else {
+    if (!isNaN(dateString)) {
+      date = new Date(parseInt(dateString));
+    } else {
+      date = new Date(dateString);
+    }
+  }
+
+  if (date.toString === 'Invalid Date') {
+    res.json({ error: 'Invalid Date' });
+  } else {
+    res.json({
+      unix: date.getTime(), utc: date.toUTCString()
+    });
+  }
+
 });
 
 
