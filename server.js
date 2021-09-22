@@ -51,11 +51,19 @@ const time = (time) => {
   return data;
 }
  */
+
+app.get("/api/", (req, res) => {
+  const date = new Date();
+  res.json({ unix: date.getTime(), utc: date.toUTCString() });
+});
+
+
 app.get("/api/:date", (req, res) => {
   const dateString = req.params.date;
+  console.log(dateString);
   let date;
   if (!dateString) {
-    date = new Date();
+    date = date.setMinutes(date.getMinutes() - 3);
   } else {
     if (!isNaN(dateString)) {
       date = new Date(parseInt(dateString));
@@ -64,10 +72,14 @@ app.get("/api/:date", (req, res) => {
     }
   }
 
-  if (date.toString === 'Invalid Date') {
-    res.json({ error: 'Invalid Date' });
+  console.log(date);
+
+
+  if (date.toString() === 'Invalid Date') {
+    return res.json({ error: 'Invalid Date' });
   } else {
-    res.json({
+    console.log({ unix: date.getTime(), utc: date.toUTCString() });
+    return res.json({
       unix: date.getTime(), utc: date.toUTCString()
     });
   }
