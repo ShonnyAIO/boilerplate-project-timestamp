@@ -31,18 +31,18 @@ const time = (time) => {
   let isNum = patterns.test(time);
   let data = { unix: null, natural: null };
   if (isNum) {
-    let date = moment.unix(time).toString();
+    let date = new Date(parseInt(time));
     console.log(date);
     data = {
       unix: Number(time),
-      utc: date
+      utc: date.toUTCString()
     };
   } else {
     if (moment(time, 'MMMM DD YYYY').isValid()) {
       let date = moment(time, 'MMMM DD YYYY');
       data = {
         unix: Number(date.format('X')),
-        utc: moment(time, 'MMMM DD YYYY').toString()
+        utc: new Date(time).toUTCString()
       };
     } else {
       return { error: "Invalid Date" };
