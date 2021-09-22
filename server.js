@@ -52,7 +52,7 @@ const time = (time) => {
 }
  */
 app.get("/api/:date", (req, res) => {
-  const dateString = req.params;
+  const dateString = req.params.date;
   let date;
   if (!dateString) {
     date = new Date();
